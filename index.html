@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writify - Cover Letter Generator</title>
+    <link rel="stylesheet" href="writify-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect width="24" height="24" rx="6" fill="#6366F1"/>
+                <path d="M7 12h10M7 8h10M7 16h6" stroke="white" stroke-width="2"/>
+            </svg>
+            Writify
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Writify</h1>
+            <div class="header-actions">
+                <button class="button" onclick="settingsManager.showModal()">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active">Fill In</div>
+            <div class="tab">Design</div>
+            <div class="tab">Proofreading</div>
+            <div class="tab">Preview</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Generate your cover letter</h2>
+                <div class="score">4/10</div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 40%;"></div>
+            </div>
+            
+            <span class="auto-save">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <circle cx="8" cy="8" r="7" stroke="#10B981" stroke-width="2"/>
+                    <path d="M5 8l2 2 4-4" stroke="#10B981" stroke-width="2"/>
+                </svg>
+                auto saved
+            </span>
+
+            <form id="coverLetterForm">
+                <div class="form-group">
+                    <label class="label">
+                        Paste the job description below *
+                        <span class="tooltip" data-tooltip="Add the full job description to help us generate a more targeted cover letter">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor"/>
+                                <path d="M8 12V7m0-3v1" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </span>
+                    </label>
+                    <textarea class="input" required placeholder="Enter job description..." rows="6"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Which skills should be the focus? *
+                        <span class="tooltip" data-tooltip="Select the key skills that match the job requirements">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor"/>
+                                <path d="M8 12V7m0-3v1" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </span>
+                    </label>
+                    <div class="tags">
+                        <span class="tag">UI/UX <span class="close">×</span></span>
+                        <span class="tag">Data Analytics <span class="close">×</span></span>
+                        <span class="tag">Design <span class="close">×</span></span>
+                    </div>
+                    <input type="text" class="input tag-input" placeholder="Type and press Enter to add skills">
+                </div>
+
+                <div class="form-group">
+                    <label class="label">
+                        How creative should the output be?
+                        <span class="tooltip" data-tooltip="Adjust the creativity level of your cover letter">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor"/>
+                                <path d="M8 12V7m0-3v1" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" class="input" min="0" max="1" step="0.1" value="0.8">
+                        <span class="slider-value">0.8</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="template">Template Style</label>
+                    <select id="template" class="input">
+                        <option value="modern">Modern Professional</option>
+                        <option value="creative">Creative & Dynamic</option>
+                        <option value="technical">Technical Professional</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="company">Company Name</label>
+                    <input type="text" id="company" class="input" required placeholder="Enter company name">
+                </div>
+
+                <div class="form-group">
+                    <label for="position">Position</label>
+                    <input type="text" id="position" class="input" required placeholder="Enter position title">
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">Years of Experience</label>
+                    <input type="number" id="experience" class="input" min="0" max="50" placeholder="Optional">
+                </div>
+
+                <button type="submit" class="button button-primary">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 4v12m0-12L6 8m4-4l4 4" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Generate Cover Letter
+                </button>
+            </form>
+            <div class="preview-controls">
+                <div class="export-options">
+                    <button class="button" onclick="exportLetter('txt')">Export as TXT</button>
+                    <button class="button" onclick="exportLetter('docx')">Export as DOCX</button>
+                </div>
+                <div class="share-options">
+                    <button class="button" onclick="shareLetter()">Share</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+      }
+    </script>
+    <script type="module" src="writify.js"></script>
+    <script type="module" src="settings.js"></script>
+</body>
+</html>
